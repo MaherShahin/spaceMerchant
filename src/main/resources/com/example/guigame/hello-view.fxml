@@ -9,21 +9,38 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="787.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.guigame.HelloController">
+<AnchorPane fx:id="anchorMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="787.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.guigame.Controller.HelloController">
    <children>
       <VBox fx:id="vBox" alignment="CENTER" layoutX="47.0" layoutY="28.0" prefHeight="333.0" prefWidth="171.0" />
-      <Label fx:id="choicePlayer" alignment="CENTER" layoutX="623.0" layoutY="28.0" prefHeight="67.0" prefWidth="165.0" text="Your choice">
+      <Label fx:id="currentPortLabel" alignment="CENTER" layoutX="296.0" layoutY="40.0" prefHeight="67.0" prefWidth="165.0" text="Your choice">
          <font>
             <Font name="Arial Nova Bold Italic" size="12.0" />
          </font></Label>
       <Separator layoutX="-9.0" layoutY="372.0" prefHeight="18.0" prefWidth="1051.0" />
-      <ListView fx:id="listView" layoutX="459.0" layoutY="105.0" prefHeight="200.0" prefWidth="487.0" />
-      <TableView fx:id="stockListTable" layoutX="325.0" layoutY="430.0" prefHeight="200.0" prefWidth="597.0">
+      <ListView fx:id="distToPorts" layoutX="325.0" layoutY="107.0" prefHeight="200.0" prefWidth="107.0" />
+      <TableView fx:id="stockListTable" layoutX="491.0" layoutY="107.0" prefHeight="200.0" prefWidth="452.0">
         <columns>
           <TableColumn fx:id="itemName" prefWidth="103.0" text="Item Name" />
-            <TableColumn fx:id="capacityUnit" prefWidth="75.0" text="Capacity/Unit" />
-            <TableColumn fx:id="priceUnit" prefWidth="75.0" text="Price/unit" />
+            <TableColumn fx:id="quantity" prefWidth="103.0" text="Quantity" />
+            <TableColumn fx:id="priceUnit" prefWidth="119.0" text="Price/unit" />
+            <TableColumn fx:id="capacityUnit" prefWidth="154.0" text="Capacity/Unit" />
         </columns>
       </TableView>
+      <Label alignment="CENTER" layoutX="613.0" layoutY="57.0" prefHeight="33.0" prefWidth="165.0" text="Stock here is:">
+         <font>
+            <Font name="Arial Nova Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="47.0" layoutY="455.0" prefHeight="67.0" prefWidth="165.0" text="Captain &amp; Ship Overview:">
+         <font>
+            <Font name="Arial Nova Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="credits" layoutX="119.0" layoutY="522.0" prefHeight="17.0" prefWidth="57.0" />
+      <Label layoutX="55.0" layoutY="511.0" prefHeight="39.0" prefWidth="40.0" text="Credits" />
+      <Label layoutX="55.0" layoutY="550.0" prefHeight="17.0" prefWidth="51.0" text="Fuel" />
+      <Label fx:id="fuel" layoutX="119.0" layoutY="550.0" prefHeight="17.0" prefWidth="57.0" />
+      <Label fx:id="shipCapacity" layoutX="119.0" layoutY="589.0" prefHeight="17.0" prefWidth="57.0" />
+      <Label layoutX="52.0" layoutY="581.0" text="Capacity" />
    </children>
 </AnchorPane>

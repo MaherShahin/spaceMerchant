@@ -7,4 +7,6 @@ module com.example.guigame {
     opens com.example.guigame to javafx.fxml;
     opens com.example.guigame.Model to javafx.base;
     exports com.example.guigame;
+    exports com.example.guigame.Controller;
+    opens com.example.guigame.Controller to javafx.fxml;
 }
