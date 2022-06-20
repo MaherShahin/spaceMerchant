@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="787.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.guigame.HelloController">
+   <children>
+      <VBox fx:id="vBox" alignment="CENTER" layoutX="47.0" layoutY="28.0" prefHeight="333.0" prefWidth="171.0" />
+      <Label fx:id="choicePlayer" alignment="CENTER" layoutX="623.0" layoutY="28.0" prefHeight="67.0" prefWidth="165.0" text="Your choice">
+         <font>
+            <Font name="Arial Nova Bold Italic" size="12.0" />
+         </font></Label>
+      <Separator layoutX="-9.0" layoutY="372.0" prefHeight="18.0" prefWidth="1051.0" />
+      <ListView fx:id="listView" layoutX="459.0" layoutY="105.0" prefHeight="200.0" prefWidth="487.0" />
+      <TableView fx:id="stockListTable" layoutX="325.0" layoutY="430.0" prefHeight="200.0" prefWidth="597.0">
+        <columns>
+          <TableColumn fx:id="itemName" prefWidth="103.0" text="Item Name" />
+            <TableColumn fx:id="capacityUnit" prefWidth="75.0" text="Capacity/Unit" />
+            <TableColumn fx:id="priceUnit" prefWidth="75.0" text="Price/unit" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
