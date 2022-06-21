@@ -70,7 +70,8 @@ public class Captain implements Cloneable, Serializable {
     public void sell(String itemName,Integer quantity) throws IOException {
 
 
-        Item item = this.getShip().getCurrentPort().getItemByStringName(itemName);
+        Item item = this.getShip().getItemByStringName(itemName);
+        //TODO -> Changed this from getCurrentPort().getStock into getShipInventory!
         if (!this.getShip().getShipInventory().containsKey(item)){
             throw new IOException("Sorry couldn't find the item you entered");
         } else if (item.getName().equals(null)){
