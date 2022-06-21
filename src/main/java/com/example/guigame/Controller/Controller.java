@@ -100,10 +100,44 @@ public class Controller {
         game = new Game();
         game.newGame();
 
-        game.getCaptain().getShip().addItemToInventory((new Item("Treibstoff",1,1)),20);
-
         currentPortLabel.setText(game.getCaptain().getShip().getCurrentPort().getName());
     }
+    public void updateUI() throws IOException {
+
+        fuel.setText(Integer.toString(game.getCaptain().getShip().getFuel()));
+
+        shipCapacity.setText(Integer.toString(game.getCaptain().getShip().getCapacity()));
+//        currentHarbor = ; //Don't remove this value
+        currentPortLabel.setText(game.getCaptain().getShip().getCurrentPort().getName());
+        credits.setText(Integer.toString(game.getCaptain().getCredit()));
+
+        setDistanceToPorts();
+        updateCurrentStock();
+        updateCurrentInventory();
+        getItemsInventory();
+    }
+
+
+
+    //Game Functionalities
+    public void sail(String playerChoiceHarbor) throws IOException {
+        game.getCaptain().sail(playerChoiceHarbor);
+        updateUI();
+    }
+    public void buy() throws IOException,NullPointerException {
+        game.getCaptain().buy(currentSelectedItem.getName(), Integer.valueOf(buyQuantity.getText()));
+        updateUI();
+        currentSelectedItem = null;
+    }
+    public void sell() throws IOException, NullPointerException {
+        game.getCaptain().sell(currentSelectedItem.getName(), Integer.valueOf(sellQuantity.getText()));
+        updateUI();
+        currentSelectedItem = null;
+
+    }
+
+
+    //Initializing the buttons
     public void initializePortButtons(){
 
         List<Harbor> harborsList = game.getPortsList();
@@ -122,84 +156,44 @@ public class Controller {
                     return;
                 }
                 try {
-                    sailOnBtnClick(playerChoiceHarbor);
+                    sail(playerChoiceHarbor);
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    showErrorPopup(e.getMessage());
                 }
             });
         } //Changing the current port when clicking on the button i.e. sailing
     }
-
-    public void getSelectedItemStock(){
-        stockListTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observableValue, Object oldVal, Object newVal) {
-                if (stockListTable.getSelectionModel().getSelectedItem()!= null){
-                    ItemsTableView itemsTableView = (ItemsTableView) stockListTable.getItems().get(stockListTable.getSelectionModel().getSelectedIndex());
-                    currentSelectedItem = itemsTableView;
-                    System.out.println(currentSelectedItem.getName());
-                    return;
-                }
-            }
-        });
-    }
-    public void getSelectedItemInventory(){
-        inventoryListTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observableValue, Object oldVal, Object newVal) {
-                if (inventoryListTable.getSelectionModel().getSelectedItem()!= null){
-                    ItemsTableView itemsTableView = (ItemsTableView) stockListTable.getItems().get(inventoryListTable.getSelectionModel().getSelectedIndex());
-                    currentSelectedItem = itemsTableView;
-                    return;
-                }
-            }
-        });
-    }
-
-    public void updateUI() throws IOException {
-
-        fuel.setText(Integer.toString(game.getCaptain().getShip().getFuel()));
-
-        shipCapacity.setText(Integer.toString(game.getCaptain().getShip().getCapacity()));
-//        currentHarbor = ; //Don't remove this value
-        currentPortLabel.setText(game.getCaptain().getShip().getCurrentPort().getName());
-        credits.setText(Integer.toString(game.getCaptain().getCredit()));
-
-        setDistanceToPorts();
-        updateCurrentStock();
-        updateCurrentInventory();
-        getItemsInventory();
-    }
-
-    //Game Functionalities
-    public void sailOnBtnClick(String playerChoiceHarbor) throws IOException {
-        game.getCaptain().sail(playerChoiceHarbor);
-        updateUI();
-    }
-
     public void initializeBuyBtn(){
         buyBtn.setOnMouseClicked(mouseEvent -> {
-                    try {
-                        game.getCaptain().buy(currentSelectedItem.getName(), Integer.valueOf(buyQuantity.getText()));
-                        updateUI();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-    });
+            try {
+                buy();
+            } catch (IOException e) {
+                showErrorPopup(e.getMessage());
+            } catch (NullPointerException e){
+                showErrorPopup("No item selected");
+            }
+        });
     }
-
     public void initializeSellBtn(){
         sellBtn.setOnMouseClicked(mouseEvent -> {
             try {
-                game.getCaptain().sell(currentSelectedItem.getName(), Integer.valueOf(sellQuantity.getText()));
-                updateUI();
+                sell();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                showErrorPopup(e.getMessage());
+            } catch (NullPointerException e){
+                showErrorPopup("No item selected");
             }
         });
     }
+    public static void showErrorPopup(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Error");
+        alert.setHeaderText(message);
+        alert.showAndWait();
+    }
 
-    //Updating the distance to other ports label
+
+    //Updating the distance to other ports list, Selecting Items from it
     public void setDistanceToPorts(){
         distToPorts.getItems().clear();
         try {
@@ -223,24 +217,36 @@ public class Controller {
         priceUnitInventory.setCellValueFactory(new PropertyValueFactory<>("unitBasePrice"));
         quantityInventory.setCellValueFactory(new PropertyValueFactory<>("quantity"));
     }
-
-    public void updateCurrentInventory(){
+    public void updateCurrentInventory() throws IOException {
         setCurrentInventory();
         inventoryListTable.setItems(getItemsInventory());
     }
-
-    public ObservableList<ItemsTableView> getItemsInventory(){
+    public ObservableList<ItemsTableView> getItemsInventory() throws IOException {
 
         ObservableList<ItemsTableView> items = FXCollections.observableArrayList();
         for (Map.Entry<Item, Integer> em: game.getCaptain().getShip().getShipInventory().entrySet()) {
-                ItemsTableView itemsTableView = new ItemsTableView(em.getKey().getName(),em.getKey().getUnitBasePrice(),em.getKey().getUnitCapacity(),em.getValue());
+            if (em.getValue()>0){
+                ItemsTableView itemsTableView = new ItemsTableView(em.getKey().getName(),em.getKey().getPriceIn(game.getCaptain().getShip().getCurrentPort()),em.getKey().getUnitCapacity(),em.getValue());
                 items.add(itemsTableView);
+            }
         }
         return items;
     }
+    public void getSelectedItemInventory(){
+        inventoryListTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object oldVal, Object newVal) {
+                if (inventoryListTable.getSelectionModel().getSelectedItem()!= null){
+                    ItemsTableView itemsTableView = (ItemsTableView) inventoryListTable.getItems().get(inventoryListTable.getSelectionModel().getSelectedIndex());
+                    currentSelectedItem = itemsTableView;
+                    return;
+                }
+            }
+        });
+    }
 
 
-    // Setting and Updating the Stock Table
+    // Setting and Updating the Stock Table, Selecting Items from it
     public void setCurrentStockTable(){
 
         stockListTable.itemsProperty().set(item);
@@ -249,24 +255,34 @@ public class Controller {
         priceUnitStock.setCellValueFactory(new PropertyValueFactory<>("unitBasePrice"));
         quantityStock.setCellValueFactory(new PropertyValueFactory<>("quantity"));
     }
-
     public void updateCurrentStock() throws IOException{
         setCurrentStockTable();
         ObservableList<ItemsTableView> items = getItemsHarbor();
         stockListTable.setItems(items);
     }
-
     public ObservableList<ItemsTableView> getItemsHarbor() throws IOException {
         Harbor current = game.getCaptain().getShip().getCurrentPort();
         ObservableList<ItemsTableView> items = FXCollections.observableArrayList();
         for (Map.Entry<Item, Integer> em: current.getStock().entrySet()) {
             if (em.getValue()>0 && em.getKey().isTradedIn(current)){
-                ItemsTableView itemsTableView = new ItemsTableView(em.getKey().getName(),em.getKey().getUnitBasePrice(),em.getKey().getUnitCapacity(),em.getValue());
+                ItemsTableView itemsTableView = new ItemsTableView(em.getKey().getName(),em.getKey().getPriceIn(game.getCaptain().getShip().getCurrentPort()),em.getKey().getUnitCapacity(),em.getValue());
                 items.add(itemsTableView);
             }
         }
         return items;
     }
-
+    public void getSelectedItemStock(){
+        stockListTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object oldVal, Object newVal) {
+                if (stockListTable.getSelectionModel().getSelectedItem()!= null){
+                    ItemsTableView itemsTableView = (ItemsTableView) stockListTable.getItems().get(stockListTable.getSelectionModel().getSelectedIndex());
+                    currentSelectedItem = itemsTableView;
+                    System.out.println(currentSelectedItem.getName());
+                    return;
+                }
+            }
+        });
+    }
 
 }

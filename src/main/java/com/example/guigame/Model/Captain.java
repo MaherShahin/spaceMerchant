@@ -71,7 +71,7 @@ public class Captain implements Cloneable, Serializable {
 
 
         Item item = this.getShip().getItemByStringName(itemName);
-        //TODO -> Changed this from getCurrentPort().getStock into getShipInventory!
+        //TODO -> Changed this from getCurrentPort().getStock into getShipInventory! - could be buggy
         if (!this.getShip().getShipInventory().containsKey(item)){
             throw new IOException("Sorry couldn't find the item you entered");
         } else if (item.getName().equals(null)){
