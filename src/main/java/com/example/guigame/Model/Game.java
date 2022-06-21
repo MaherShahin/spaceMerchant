@@ -46,6 +46,7 @@ public class Game implements Cloneable, Serializable {
         Harbor neudorf = new Harbor("Neudorf");
         Harbor tortuga = new Harbor("Tortuga");
         Harbor trier = new Harbor("Trier");
+        Harbor alexandria = new Harbor("Alexandria");
 
         itemsList.add(neon);
         itemsList.add(halbleiter);
@@ -58,6 +59,7 @@ public class Game implements Cloneable, Serializable {
         portsList.add(berlin);
         portsList.add(neudorf);
         portsList.add(tortuga);
+        portsList.add(alexandria);
 
         randomizeItemsAndPorts();
     }

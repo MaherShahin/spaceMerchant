@@ -161,4 +161,14 @@ public class Ship implements Cloneable, Serializable {
 
     }
 
+    public Item getItemByStringName(String name){
+        Item item = new Item();
+        for (Map.Entry em: this.getShipInventory().entrySet()) {
+            if ( ((Item)em.getKey()).getName().toLowerCase().equals(name.toLowerCase()) ){
+                item = (Item)em.getKey();
+            }
+        }
+        return item;
+    }
+
 }
