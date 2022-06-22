@@ -30,6 +30,7 @@ public class Game implements Cloneable, Serializable {
         initializeItemsAndPorts();
         captain = new Captain();
         ship = new Ship(captain,portsList.get(0));
+
         captain.setShip(ship);
     }
     public static void initializeItemsAndPorts() throws IOException {
@@ -69,14 +70,18 @@ public class Game implements Cloneable, Serializable {
         //Assign for every item a random value for isTradedIn between (4-0) for PriceMultiplier + Tradeability
         for (Item i: itemsList){
             for (Harbor p: portsList) {
+                if (i.getName().toLowerCase().equals("treibstoff")){
+                    i.addIsTradedIn(p,1);
+                } else {
                 i.addIsTradedIn(p,rand.nextInt(4));
+                }
             }
         }
 
         //Assign for every port a random value of items in stock
         for (Harbor p: portsList) {
             for (Item i: itemsList) {
-                p.addItemToStock(i,rand.nextInt(15));
+                p.addItemToStock(i,rand.nextInt(20));
             }
         }
 
@@ -84,7 +89,7 @@ public class Game implements Cloneable, Serializable {
         for (Harbor p1: portsList) {
             for (Harbor p2: portsList) {
                 if (!p1.getName().equals(p2.getName())){
-                    p1.addDistanceTo(p2, rand.nextInt(4));
+                    p1.addDistanceTo(p2, rand.nextInt(3)+1);
                 }
             }
         }

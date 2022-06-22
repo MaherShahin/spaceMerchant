@@ -14,8 +14,10 @@ public class App extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("hello-view.fxml"));
 
         Scene scene = new Scene(fxmlLoader.load(), 1020, 768);
-        stage.setTitle("Hello!");
+
+        stage.setTitle("Space-merchant");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 
