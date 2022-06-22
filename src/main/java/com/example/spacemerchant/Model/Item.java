@@ -1,4 +1,4 @@
-package com.example.guigame.Model;
+package com.example.spacemerchant.Model;
 
 import java.io.IOException;
 import java.io.Serializable;

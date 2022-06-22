@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="787.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.guigame.Controller.Controller">
+<AnchorPane fx:id="anchorMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="787.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.spacemerchant.Controller.Controller">
    <children>
       <VBox fx:id="vBox" alignment="CENTER" focusTraversable="true" layoutX="50.0" layoutY="57.0" prefHeight="293.0" prefWidth="171.0" />
       <Label fx:id="currentPortLabel" alignment="CENTER" layoutX="252.0" layoutY="40.0" prefHeight="67.0" prefWidth="165.0" text="Current Harbor">

@@ -1,4 +1,4 @@
-package com.example.guigame.Model;
+package com.example.spacemerchant.Model;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
