@@ -1,4 +1,4 @@
-package com.example.guigame.Controller;
+package com.example.spacemerchant.Controller;
 
 public class ItemsTableView {
 

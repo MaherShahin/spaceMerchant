@@ -1,9 +1,9 @@
-package com.example.guigame.Controller;
+package com.example.spacemerchant.Controller;
 
-import com.example.guigame.Model.Captain;
-import com.example.guigame.Model.Game;
-import com.example.guigame.Model.Harbor;
-import com.example.guigame.Model.Item;
+import com.example.spacemerchant.Model.Captain;
+import com.example.spacemerchant.Model.Game;
+import com.example.spacemerchant.Model.Harbor;
+import com.example.spacemerchant.Model.Item;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
