@@ -1,8 +1,10 @@
 package com.example.guigame.Controller;
 
+import com.example.guigame.Model.Captain;
 import com.example.guigame.Model.Game;
 import com.example.guigame.Model.Harbor;
 import com.example.guigame.Model.Item;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -11,8 +13,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,59 +28,35 @@ public class Controller {
 
     @FXML
     private VBox vBox;
-    private List<Button> buttonList = new ArrayList<>();
+    private List<Button> harborsButtonList = new ArrayList<>();
 
 
     //Player Information
     @FXML
-    private Label credits;
-    @FXML
-    private Label fuel;
-    @FXML
-    private Label shipCapacity;
+    private Label credits, fuel, shipCapacity,currentPortLabel;
 
-
-    @FXML
-    private Label currentPortLabel;
     //Distance To Port
     @FXML
     private ListView distToPorts;
 
 
+    // Player Inventory / Harbor Stock Tables
+    @FXML
+    private TableView inventoryListTable,stockListTable;
+    @FXML
+    private TableColumn itemNameInventory,priceUnitInventory,quantityInventory,capacityUnitInventory;
+    @FXML
+    private TableColumn itemNameStock,priceUnitStock,quantityStock,capacityUnitStock;
+    @FXML
+    private Button sellBtn, buyBtn;
+    @FXML
+    private TextArea sellQuantity, buyQuantity;
 
-    // Harbor Stock Table
+    //newGame, SaveBtn, loadBtn
     @FXML
-    private TableView stockListTable;
-    @FXML
-    private TableColumn itemNameStock;
-    @FXML
-    private TableColumn priceUnitStock;
-    @FXML
-    private TableColumn quantityStock;
-    @FXML
-    private TableColumn capacityUnitStock;
-    @FXML
-    private Button buyBtn;
-    @FXML
-    private TextArea buyQuantity;
-
+    private Button newGameBtn, saveBtn, loadBtn;
 
 
-    // Player Inventory Table
-    @FXML
-    private TableView inventoryListTable;
-    @FXML
-    private TableColumn itemNameInventory;
-    @FXML
-    private TableColumn priceUnitInventory;
-    @FXML
-    private TableColumn quantityInventory;
-    @FXML
-    private TableColumn capacityUnitInventory;
-    @FXML
-    private Button sellBtn;
-    @FXML
-    private TextArea sellQuantity;
 
     public Controller() {
 
@@ -86,13 +65,9 @@ public class Controller {
     public void initialize() throws IOException {
         startNewGame();
         updateUI();
-        initializePortButtons();
-
-        getSelectedItemStock();
-        getSelectedItemInventory();
-
-        initializeBuyBtn();
-        initializeSellBtn();
+        initializeAllButtons();
+        setSelectedItemStock();
+        setSelectedItemInventory();
 
     }
 
@@ -107,7 +82,6 @@ public class Controller {
         fuel.setText(Integer.toString(game.getCaptain().getShip().getFuel()));
 
         shipCapacity.setText(Integer.toString(game.getCaptain().getShip().getCapacity()));
-//        currentHarbor = ; //Don't remove this value
         currentPortLabel.setText(game.getCaptain().getShip().getCurrentPort().getName());
         credits.setText(Integer.toString(game.getCaptain().getCredit()));
 
@@ -115,7 +89,11 @@ public class Controller {
         updateCurrentStock();
         updateCurrentInventory();
         getItemsInventory();
+
+        checkWin();
+
     }
+
 
 
 
@@ -135,21 +113,46 @@ public class Controller {
         currentSelectedItem = null;
 
     }
+    public void checkWin() throws IOException {
+        if (game.getCaptain().getCredit()>600) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Wohooo!");
+            alert.setHeaderText("Congratulations you have won");
+            alert.setContentText("Would you like to start a new game?");
+            if (alert.showAndWait().get() == ButtonType.OK) {
+                startNewGame();
+                updateUI();
+            } else {
+                Platform.exit();
+            }
+        }
+    }
 
 
     //Initializing the buttons
+    public void initializeAllButtons(){
+        initializePortButtons();
+        initializeNewGameBtn();
+        initializeSaveBtn();
+        initializeLoadBtn();
+        initializeBuyBtn();
+        initializeSellBtn();
+    }
     public void initializePortButtons(){
 
         List<Harbor> harborsList = game.getPortsList();
         for (Harbor h: harborsList) {
             Button tempButton = new Button(h.getName());
             tempButton.setId(h.getName());
-            buttonList.add(tempButton);
+            harborsButtonList.add(tempButton);
         }
 
-        vBox.getChildren().addAll(buttonList);
+        vBox.getChildren().addAll(harborsButtonList);
+        vBox.setSpacing(7);
 
-        for (Button button: buttonList) {
+        for (Button button: harborsButtonList) {
+            button.setStyle("-fx-padding: 10 20 10 20");
+            button.setMinWidth(100);
             button.setOnMouseClicked(mouseEvent -> {
                 String playerChoiceHarbor = ((Button)mouseEvent.getSource()).getId();
                 if (playerChoiceHarbor.equals(game.getCaptain().getShip().getCurrentPort().getName())) {
@@ -182,6 +185,63 @@ public class Controller {
                 showErrorPopup(e.getMessage());
             } catch (NullPointerException e){
                 showErrorPopup("No item selected");
+            }
+        });
+    }
+    public void initializeSaveBtn(){
+        saveBtn.setOnMouseClicked(mouseEvent->{
+            try {
+                FileChooser fileChooser = new FileChooser();
+                FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+                fileChooser.getExtensionFilters().add(extensionFilter);
+                fileChooser.setTitle("Please save your file");
+                File file = fileChooser.showSaveDialog(saveBtn.getScene().getWindow());
+                if (file!=null){
+                    FileOutputStream fileOut = new FileOutputStream(file);
+                    ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                    out.writeObject(game.getCaptain());
+                    fileOut.close();
+                }
+            } catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+        });
+    }
+    public void initializeLoadBtn(){
+        loadBtn.setOnMouseClicked(mouseEvent->{
+            try {
+                FileChooser fileChooser = new FileChooser();
+                FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+                fileChooser.getExtensionFilters().add(extensionFilter);
+                fileChooser.setTitle("Please save your file");
+                File file = fileChooser.showOpenDialog(loadBtn.getScene().getWindow());
+                if (file!=null){
+                    FileInputStream fileIn = new FileInputStream(file);
+                    ObjectInputStream inputStream = new ObjectInputStream(fileIn);
+                    Captain captain = (Captain) inputStream.readObject();
+                    game.setCaptain(captain);
+                    updateUI();
+                }
+            } catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+        });
+    }
+    public void initializeNewGameBtn(){
+        newGameBtn.setOnMouseClicked(mouseEvent->{
+            try {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Are you sure you wanna do that?");
+                alert.setHeaderText("Start a new game");
+                if (alert.showAndWait().get() == ButtonType.OK){
+                    startNewGame();
+                    updateUI();
+                } else {
+                    return;
+                }
+
+            } catch (Exception e){
+                System.out.println(e.getMessage());
             }
         });
     }
@@ -232,7 +292,7 @@ public class Controller {
         }
         return items;
     }
-    public void getSelectedItemInventory(){
+    public void setSelectedItemInventory(){
         inventoryListTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object oldVal, Object newVal) {
@@ -271,7 +331,7 @@ public class Controller {
         }
         return items;
     }
-    public void getSelectedItemStock(){
+    public void setSelectedItemStock(){
         stockListTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object oldVal, Object newVal) {
