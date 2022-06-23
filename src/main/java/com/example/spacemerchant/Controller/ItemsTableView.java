@@ -2,6 +2,8 @@ package com.example.spacemerchant.Controller;
 
 public class ItemsTableView {
 
+    // Used for casting the items into an appropriate class that is insertable into tableview for stock&inventory
+
     String name;
     Integer unitBasePrice;
     Integer unitCapacity;

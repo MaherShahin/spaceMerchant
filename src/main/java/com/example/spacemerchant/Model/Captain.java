@@ -43,13 +43,15 @@ public class Captain implements Cloneable, Serializable {
             throw new IOException("Sorry couldn't find the item you entered");
         } else if (item.getName().equals(null)){
             throw new IOException("Sorry couldn't find the item you entered");
+        } else if (quantity<0){
+            throw new IOException("Negative inputs not allowed");
         }
 
         int totalPurchase = item.getPriceIn(this.ship.getCurrentPort()) * quantity;
         try {
             if (!item.isTradedIn(this.getShip().getCurrentPort())){
-            System.out.println("Woohooo you can't do that here buddy!");
-            throw new IOException("Illegal item!");
+                System.out.println("Woohooo you can't do that here buddy!");
+                throw new IOException("Illegal item!");
             } else if ( totalPurchase > this.getCredit() ) {
                 System.out.println("You don't have enough credits to do that!");
                 throw new IOException("You're too poor!");
@@ -76,12 +78,13 @@ public class Captain implements Cloneable, Serializable {
             throw new IOException("Sorry couldn't find the item you entered");
         } else if (item.getName().equals(null)){
             throw new IOException("Sorry couldn't find the item you entered");
+        } else if (quantity<0){
+            throw new IOException("Negative inputs not allowed");
         }
 
         int totalGained = item.getPriceIn(this.ship.getCurrentPort()) * quantity;
         if (!item.isTradedIn(this.getShip().getCurrentPort())){
-            System.out.println("Woohooo you can't do that here buddy!");
-            throw new IOException("Illegal item!");
+            throw new IOException("Illegal item! You can't sell this in this harbor!");
         } else {
             this.getShip().getCurrentPort().addItemToStock(item,quantity);
             this.getShip().removeItemFromInventory(item,quantity);
