@@ -71,6 +71,7 @@ public class Controller {
 
     }
 
+
     public void startNewGame() throws IOException {
         game = new Game();
         game.newGame();
@@ -86,6 +87,7 @@ public class Controller {
         credits.setText(Integer.toString(game.getCaptain().getCredit()));
 
         setDistanceToPorts();
+        updateHarborBtnColor();
         updateCurrentStock();
         updateCurrentInventory();
         getItemsInventory();
@@ -93,8 +95,17 @@ public class Controller {
         checkWin();
 
     }
+    public void updateHarborBtnColor(){
+        for (Button button: harborsButtonList){
+            if (button.getId().equals(game.getCaptain().getShip().getCurrentPort().getName())){
+                button.getStyleClass().add("button-active");
+            } else {
+                button.getStyleClass().clear();
+                button.getStyleClass().add("button-normal");
+            }
+        }
 
-
+    }
 
 
     //Game Functionalities
@@ -102,13 +113,21 @@ public class Controller {
         game.getCaptain().sail(playerChoiceHarbor);
         updateUI();
     }
-    public void buy() throws IOException,NullPointerException {
-        game.getCaptain().buy(currentSelectedItem.getName(), Integer.valueOf(buyQuantity.getText()));
+    public void buy() throws IOException,NullPointerException, NumberFormatException {
+        try {
+            game.getCaptain().buy(currentSelectedItem.getName(), Integer.valueOf(buyQuantity.getText().trim()));
+        } catch (IOException | NumberFormatException e) {
+            showErrorPopup(e.getMessage());
+        }
         updateUI();
         currentSelectedItem = null;
     }
-    public void sell() throws IOException, NullPointerException {
-        game.getCaptain().sell(currentSelectedItem.getName(), Integer.valueOf(sellQuantity.getText()));
+    public void sell() throws Exception {
+        try {
+            game.getCaptain().sell(currentSelectedItem.getName(), Integer.valueOf(sellQuantity.getText().trim()));
+        } catch (Exception e){
+            showErrorPopup(e.getMessage());
+        }
         updateUI();
         currentSelectedItem = null;
 
@@ -147,12 +166,13 @@ public class Controller {
             harborsButtonList.add(tempButton);
         }
 
+        updateHarborBtnColor();
+
         vBox.getChildren().addAll(harborsButtonList);
         vBox.setSpacing(7);
 
         for (Button button: harborsButtonList) {
-            button.setStyle("-fx-padding: 10 20 10 20");
-            button.setMinWidth(100);
+             button.setMinWidth(100);
             button.setOnMouseClicked(mouseEvent -> {
                 String playerChoiceHarbor = ((Button)mouseEvent.getSource()).getId();
                 if (playerChoiceHarbor.equals(game.getCaptain().getShip().getCurrentPort().getName())) {
@@ -181,10 +201,10 @@ public class Controller {
         sellBtn.setOnMouseClicked(mouseEvent -> {
             try {
                 sell();
-            } catch (IOException e) {
-                showErrorPopup(e.getMessage());
             } catch (NullPointerException e){
                 showErrorPopup("No item selected");
+            } catch (Exception e) {
+                showErrorPopup(e.getMessage());
             }
         });
     }
@@ -203,7 +223,7 @@ public class Controller {
                     fileOut.close();
                 }
             } catch (Exception e){
-                System.out.println(e.getMessage());
+                showErrorPopup(e.getMessage());
             }
         });
     }
@@ -223,7 +243,7 @@ public class Controller {
                     updateUI();
                 }
             } catch (Exception e){
-                System.out.println(e.getMessage());
+                showErrorPopup(e.getMessage());
             }
         });
     }
@@ -241,7 +261,7 @@ public class Controller {
                 }
 
             } catch (Exception e){
-                System.out.println(e.getMessage());
+                showErrorPopup(e.getMessage());
             }
         });
     }
@@ -258,8 +278,9 @@ public class Controller {
         distToPorts.getItems().clear();
         try {
             for (Harbor h: game.getCaptain().getShip().getCurrentPort().getDistanceTo().keySet()) {
+
                 String harborName = h.getName();
-                Integer distance = h.getDistanceTo(game.getCaptain().getShip().getCurrentPort());
+                Integer distance = game.getCaptain().getShip().getCurrentPort().getDistanceTo(h);
                 distToPorts.getItems().add(harborName + " " + distance);
             }
         } catch (IOException e) {

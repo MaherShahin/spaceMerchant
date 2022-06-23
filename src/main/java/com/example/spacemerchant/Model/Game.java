@@ -43,11 +43,16 @@ public class Game implements Cloneable, Serializable {
         Item neon = new Item("Neon",2,15);
 
         //List of Ports
-        Harbor berlin = new Harbor("Berlin");
-        Harbor neudorf = new Harbor("Neudorf");
+//        Harbor berlin = new Harbor("Berlin");
+//        Harbor neudorf = new Harbor("Neudorf");
         Harbor tortuga = new Harbor("Tortuga");
-        Harbor trier = new Harbor("Trier");
+//        Harbor trier = new Harbor("Trier");
         Harbor alexandria = new Harbor("Alexandria");
+        Harbor cairo = new Harbor("Cairo");
+        Harbor athens = new Harbor("Athens");
+        Harbor luxor = new Harbor("Luxor");
+        Harbor thessaloniki = new Harbor("Thessaloniki");
+
 
         itemsList.add(neon);
         itemsList.add(halbleiter);
@@ -56,11 +61,15 @@ public class Game implements Cloneable, Serializable {
         itemsList.add(computer);
         itemsList.add(polymer);
 
-        portsList.add(trier);
-        portsList.add(berlin);
-        portsList.add(neudorf);
+//        portsList.add(trier);
+//        portsList.add(berlin);
+//        portsList.add(neudorf);
         portsList.add(tortuga);
         portsList.add(alexandria);
+        portsList.add(cairo);
+        portsList.add(athens);
+        portsList.add(thessaloniki);
+        portsList.add(luxor);
 
         randomizeItemsAndPorts();
     }
