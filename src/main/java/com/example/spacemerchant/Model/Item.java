@@ -7,6 +7,8 @@ import java.util.HashMap;
 public class Item implements Cloneable, Serializable {
     private String name;
     private int unitCapacity;
+    private int unitBasePrice;
+    private HashMap<Harbor,Integer> tradedInHarborPriceMultiplier;
 
     public HashMap<Harbor, Integer> getTradedInHarborPriceMultiplier() {
         return tradedInHarborPriceMultiplier;
@@ -16,8 +18,6 @@ public class Item implements Cloneable, Serializable {
         this.tradedInHarborPriceMultiplier = tradedInHarborPriceMultiplier;
     }
 
-    private int unitBasePrice;
-    private HashMap<Harbor,Integer> tradedInHarborPriceMultiplier;
     public Item(String name, int unitCapacity, int unitBasePrice){
         this.setName(name);
         this.setUnitBasePrice(unitBasePrice);
@@ -70,9 +70,8 @@ public class Item implements Cloneable, Serializable {
         this.unitBasePrice = unitBasePrice;
     }
 
-    //Manipulation of the table for the items
 
-    //Working correctly
+    //Manipulation of the table for the items
     public void addIsTradedIn(Harbor harbor, Integer multiplier) throws IOException {
         if (multiplier<0){
             throw new IOException("Negative multipliers are not allowed");
@@ -81,7 +80,6 @@ public class Item implements Cloneable, Serializable {
         }
     }
 
-    //Working correctly
     public boolean isTradedIn(Harbor harbor) throws IOException {
         if (tradedInHarborPriceMultiplier.isEmpty()){
             throw new IOException("List is empty! I have no clue");
@@ -93,8 +91,6 @@ public class Item implements Cloneable, Serializable {
             return true;
     }
 
-
-    //Working Correctly
     public int getItemMultiplierAtPort(Harbor harbor) throws IOException {
         if (tradedInHarborPriceMultiplier.isEmpty()){
             throw new IOException("List is empty");
@@ -107,7 +103,6 @@ public class Item implements Cloneable, Serializable {
         }
     }
 
-    //Working correctly
     public int getPriceIn(Harbor harbor) throws IOException {
         if (tradedInHarborPriceMultiplier.isEmpty()){
             throw new IOException("List is empty");

@@ -8,6 +8,10 @@ import java.util.Objects;
 
 public class Harbor implements Cloneable, Serializable {
 
+    private String name;
+    private HashMap<Harbor,Integer> distanceTo = new HashMap<Harbor,Integer>();
+    private HashMap<Item, Integer> stock = new HashMap<Item,Integer>();
+
     public Harbor(String name){
         this.setName(name);
     }
@@ -27,9 +31,8 @@ public class Harbor implements Cloneable, Serializable {
     public Harbor(){
         this.setName(null);
     }
-    private String name;
-    private HashMap<Harbor,Integer> distanceTo = new HashMap<Harbor,Integer>();
-    private HashMap<Item, Integer> stock = new HashMap<Item,Integer>();
+
+
 
     //Setters and Getters
     public String getName() {

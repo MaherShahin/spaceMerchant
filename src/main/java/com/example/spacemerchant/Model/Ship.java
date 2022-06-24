@@ -4,10 +4,23 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Ship implements Cloneable, Serializable {
 
+    private Captain captain;
+    private int capacity;
+    private int maxCapacity;
+    private int tripCounter;
+    private Harbor currentHarbor;
+    private int fuel;
+    private HashMap<Item,Integer> shipInventory = new HashMap<Item,Integer>();
     //Constructor for the Ship
+
+    public Ship(){
+
+    }
+
     public Ship(Captain captain, Harbor startingHarbor){
         this.setCaptain(captain);
         this.fuel = 0;
@@ -16,14 +29,13 @@ public class Ship implements Cloneable, Serializable {
         this.setCurrentPort(startingHarbor);
     }
 
-    public Ship(){
-
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ship ship = (Ship) o;
+        return capacity == ship.capacity && maxCapacity == ship.maxCapacity && tripCounter == ship.tripCounter && fuel == ship.fuel && captain.equals(ship.captain) && currentHarbor.equals(ship.currentHarbor);
     }
-    private Captain captain;
-    private int capacity;
-    private int maxCapacity;
-    private int tripCounter;
-
 
     public void setCurrentPort(Harbor currentHarbor) {
         this.currentHarbor = currentHarbor;
@@ -32,10 +44,6 @@ public class Ship implements Cloneable, Serializable {
     public void setShipInventory(HashMap<Item, Integer> shipInventory) {
         this.shipInventory = shipInventory;
     }
-
-    private Harbor currentHarbor;
-    private int fuel;
-    private HashMap<Item,Integer> shipInventory = new HashMap<Item,Integer>();
 
     public Captain getCaptain() {
         return captain;
@@ -118,7 +126,7 @@ public class Ship implements Cloneable, Serializable {
     public void updateFuel(){
         int fuel = 0;
         for (Map.Entry me: shipInventory.entrySet()) {
-            if ( ((Item)me.getKey()).getName().equals("Treibstoff") ){
+            if ( ((Item)me.getKey()).getName().equals("Fuel") ){
                 fuel += (int) me.getValue();
             }
         }
@@ -127,7 +135,7 @@ public class Ship implements Cloneable, Serializable {
     //Instead of calling update capacity,fuel for sail -> use this removeFuel instead
     public void removeFuel(int quantity){
         for (Map.Entry me: shipInventory.entrySet()) {
-            if ( ((Item)me.getKey()).getName().equals("Treibstoff") ){
+            if ( ((Item)me.getKey()).getName().equals("Fuel") ){
                 int oldFuelValue = (int) me.getValue();
                 int newFuelValue = oldFuelValue-quantity;
                 me.setValue(newFuelValue);

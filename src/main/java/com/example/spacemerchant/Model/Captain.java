@@ -6,14 +6,14 @@ import java.util.Objects;
 
 public class Captain implements Cloneable, Serializable {
 
+    private int credit;
+    private Ship ship;
+
     public Captain(){
         this.setCredit(100);
         this.setShip(null);
     }
 
-
-    private int credit;
-    private Ship ship;
 
     public int getCredit() {
         return credit;
@@ -48,7 +48,7 @@ public class Captain implements Cloneable, Serializable {
         }
 
         int totalPurchase = item.getPriceIn(this.ship.getCurrentPort()) * quantity;
-        try {
+
             if (!item.isTradedIn(this.getShip().getCurrentPort())){
                 System.out.println("Woohooo you can't do that here buddy!");
                 throw new IOException("Illegal item!");
@@ -65,9 +65,7 @@ public class Captain implements Cloneable, Serializable {
 
             }
 
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+
     }
     public void sell(String itemName,Integer quantity) throws IOException {
 
@@ -92,8 +90,6 @@ public class Captain implements Cloneable, Serializable {
             int oldCredits = this.getCredit();
             this.setCredit( oldCredits + totalGained );
         }
-//        this.getShip().printCurrentInventory();
-//        this.getShip().getCurrentPort().printAllItemsInStock();
     }
     public void sail(String destinationPortName) throws IOException {
 
@@ -104,8 +100,8 @@ public class Captain implements Cloneable, Serializable {
             throw new IOException("Sorry couldn't find the port you entered");
         }
 
-
         int fuelToDestination = this.ship.getCurrentPort().getDistanceTo(destinationHarbor);
+
         if (this.ship.getFuel() - fuelToDestination < 0){
             throw new IOException("You don't have enough fuel, required fuel to this port is: " + fuelToDestination);
         } else {
@@ -113,7 +109,6 @@ public class Captain implements Cloneable, Serializable {
             this.ship.setCurrentPort(destinationHarbor);
             this.ship.incrementTripCounter();
         }
-//        this.getShip().getCurrentPort().printAllItemsInStock();
     }
 
 

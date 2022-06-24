@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="787.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.spacemerchant.Controller.Controller">
+<AnchorPane fx:id="anchorMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="787.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.spacemerchant.Controller.ViewController">
    <children>
       <Rectangle arcWidth="5.0" fill="LIGHTGREEN" height="74.0" layoutX="287.0" layoutY="59.0" opacity="0.29" stroke="BLACK" strokeType="INSIDE" width="165.0" />
       <VBox fx:id="vBox" alignment="CENTER" focusTraversable="true" layoutX="50.0" layoutY="57.0" prefHeight="293.0" prefWidth="233.0" />
@@ -99,5 +99,6 @@
             <Font size="14.0" />
          </font>
       </Label>
+      <Label fx:id="testLabel" layoutX="389.0" layoutY="725.0" />
    </children>
 </AnchorPane>

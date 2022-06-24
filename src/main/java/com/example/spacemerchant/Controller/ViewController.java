@@ -4,6 +4,7 @@ import com.example.spacemerchant.Model.Captain;
 import com.example.spacemerchant.Model.Game;
 import com.example.spacemerchant.Model.Harbor;
 import com.example.spacemerchant.Model.Item;
+import com.example.spacemerchant.View.ItemsTableView;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,11 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Controller {
+public class ViewController {
 
     private Item item;
     private ItemsTableView currentSelectedItem;
     private Game game;
+
 
     @FXML
     private VBox vBox;
@@ -37,7 +39,7 @@ public class Controller {
 
     //Distance To Port
     @FXML
-    private ListView distToPorts;
+    private ListView<String> distToPorts;
 
 
     // Player Inventory / Harbor Stock Tables
@@ -58,24 +60,22 @@ public class Controller {
 
 
 
-    public Controller() {
+    public ViewController() {
 
     }
-    @FXML
+
     public void initialize() throws IOException {
         startNewGame();
         updateUI();
         initializeAllButtons();
         setSelectedItemStock();
         setSelectedItemInventory();
-
     }
 
 
     public void startNewGame() throws IOException {
         game = new Game();
-        game.newGame();
-
+        Game.newGame();
         currentPortLabel.setText(game.getCaptain().getShip().getCurrentPort().getName());
     }
     public void updateUI() throws IOException {
@@ -104,7 +104,6 @@ public class Controller {
                 button.getStyleClass().add("button-normal");
             }
         }
-
     }
 
 
@@ -116,7 +115,7 @@ public class Controller {
     public void buy() throws IOException,NullPointerException, NumberFormatException {
         try {
             game.getCaptain().buy(currentSelectedItem.getName(), Integer.valueOf(buyQuantity.getText().trim()));
-        } catch (IOException | NumberFormatException e) {
+        } catch (Exception e) {
             showErrorPopup(e.getMessage());
         }
         updateUI();
@@ -281,7 +280,7 @@ public class Controller {
 
                 String harborName = h.getName();
                 Integer distance = game.getCaptain().getShip().getCurrentPort().getDistanceTo(h);
-                distToPorts.getItems().add(harborName + " " + distance);
+               distToPorts.getItems().add(harborName + " " + distance);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
