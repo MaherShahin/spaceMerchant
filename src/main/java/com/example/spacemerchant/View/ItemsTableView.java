@@ -1,4 +1,4 @@
-package com.example.spacemerchant.Controller;
+package com.example.spacemerchant.View;
 
 public class ItemsTableView {
 

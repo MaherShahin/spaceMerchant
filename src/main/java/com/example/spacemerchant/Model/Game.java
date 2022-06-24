@@ -21,7 +21,7 @@ public class Game implements Cloneable, Serializable {
     public Captain getCaptain() {
         return captain;
     }
-    public Game() throws IOException {
+    public Game() {
         itemsList = new ArrayList<Item>();
         portsList = new ArrayList<Harbor>();
     }
@@ -37,16 +37,17 @@ public class Game implements Cloneable, Serializable {
         //Items
         Item polymer = new Item("Polymer",2,20 );
         Item computer = new Item("Computer",1,50);
-        Item waschmittel = new Item("Waschmittel",4,10);
-        Item treibstoff = new Item("Treibstoff",1,1);
-        Item halbleiter = new Item("Halbleiter",3,30);
+        Item kalaxianCrystals = new Item("Kalaxian Crystals",4,10);
+        Item fuel = new Item("Fuel",1,1);
+        Item quantumFluid = new Item("Quantum Fluid",3,30);
         Item neon = new Item("Neon",2,15);
+        Item plumbus = new Item("Plumbus",3,30);
+        Item portalGun = new Item("Portal Gun", 1,70);
+        Item deathCrystal = new Item("Death Crystal", 1, 25);
 
         //List of Ports
-//        Harbor berlin = new Harbor("Berlin");
-//        Harbor neudorf = new Harbor("Neudorf");
+
         Harbor tortuga = new Harbor("Tortuga");
-//        Harbor trier = new Harbor("Trier");
         Harbor alexandria = new Harbor("Alexandria");
         Harbor cairo = new Harbor("Cairo");
         Harbor athens = new Harbor("Athens");
@@ -55,15 +56,16 @@ public class Game implements Cloneable, Serializable {
 
 
         itemsList.add(neon);
-        itemsList.add(halbleiter);
-        itemsList.add(treibstoff);
-        itemsList.add(waschmittel);
+        itemsList.add(quantumFluid);
+        itemsList.add(fuel);
+        itemsList.add(kalaxianCrystals);
         itemsList.add(computer);
         itemsList.add(polymer);
+        itemsList.add(plumbus);
+        itemsList.add(portalGun);
+        itemsList.add(deathCrystal);
 
-//        portsList.add(trier);
-//        portsList.add(berlin);
-//        portsList.add(neudorf);
+
         portsList.add(tortuga);
         portsList.add(alexandria);
         portsList.add(cairo);

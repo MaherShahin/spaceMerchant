@@ -9,4 +9,6 @@ module com.example.guigame {
     exports com.example.spacemerchant;
     exports com.example.spacemerchant.Controller;
     opens com.example.spacemerchant.Controller to javafx.fxml;
+    exports com.example.spacemerchant.View;
+    opens com.example.spacemerchant.View to javafx.fxml;
 }
