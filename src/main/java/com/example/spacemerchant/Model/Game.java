@@ -35,43 +35,43 @@ public class Game implements Cloneable, Serializable {
     }
     public static void initializeItemsAndPorts() throws IOException {
         //Items
-        Item polymer = new Item("Polymer",2,20 );
-        Item computer = new Item("Computer",1,50);
+        Item megaSeeds = new Item("Mega Seeds",2,20 );
+        Item morphizer = new Item("Morphizer-XE",1,50);
         Item kalaxianCrystals = new Item("Kalaxian Crystals",4,10);
         Item fuel = new Item("Fuel",1,1);
         Item quantumFluid = new Item("Quantum Fluid",3,30);
-        Item neon = new Item("Neon",2,15);
+        Item neutrinoBomb = new Item("Neutrino Bomb",2,85);
         Item plumbus = new Item("Plumbus",3,30);
         Item portalGun = new Item("Portal Gun", 1,70);
         Item deathCrystal = new Item("Death Crystal", 1, 25);
 
         //List of Ports
 
-        Harbor tortuga = new Harbor("Tortuga");
-        Harbor alexandria = new Harbor("Alexandria");
-        Harbor cairo = new Harbor("Cairo");
-        Harbor athens = new Harbor("Athens");
-        Harbor luxor = new Harbor("Luxor");
-        Harbor thessaloniki = new Harbor("Thessaloniki");
+        Harbor gazorpazorp = new Harbor("Gazorpazorp");
+        Harbor purgePlanet = new Harbor("Purge Planet");
+        Harbor planetSquanch = new Harbor("Planet Squanch");
+        Harbor shongi_the_living_planet = new Harbor("Shongi the Living Planet");
+        Harbor earthC137 = new Harbor("Earth Dimension C-137 ");
+        Harbor galacticFederationOutpost = new Harbor("Galactic Federation Outpost");
 
 
-        itemsList.add(neon);
+        itemsList.add(neutrinoBomb);
         itemsList.add(quantumFluid);
         itemsList.add(fuel);
         itemsList.add(kalaxianCrystals);
-        itemsList.add(computer);
-        itemsList.add(polymer);
+        itemsList.add(morphizer);
+        itemsList.add(megaSeeds);
         itemsList.add(plumbus);
         itemsList.add(portalGun);
         itemsList.add(deathCrystal);
 
 
-        portsList.add(tortuga);
-        portsList.add(alexandria);
-        portsList.add(cairo);
-        portsList.add(athens);
-        portsList.add(thessaloniki);
-        portsList.add(luxor);
+        portsList.add(gazorpazorp);
+        portsList.add(purgePlanet);
+        portsList.add(planetSquanch);
+        portsList.add(shongi_the_living_planet);
+        portsList.add(galacticFederationOutpost);
+        portsList.add(earthC137);
 
         randomizeItemsAndPorts();
     }
